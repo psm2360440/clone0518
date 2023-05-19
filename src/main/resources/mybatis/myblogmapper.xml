@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbstar.mapper.MyblogMapper">
+
+    <select id="select" parameterType="string" resultType="myblog">
+
+    </select>
+
+    <insert id="insert" parameterType="myblog">
+        INSERT INTO myblog (id, stu_id, title, contents, rdate)
+        VALUES (myblog_seq.NEXTVAL, #{stu_id}, #{title}, #{contents}, SYSDATE)
+    </insert>
+
+    <update id="update" parameterType="myblog">
+        --                 UPDATE student SET pwd=#{pwd}, name=#{name}, detail=#{detail}
+--                         , email=#{email}, contact=#{contact}, img=#{img}
+--                         WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE
+        FROM myblog
+        WHERE ID = #{id}
+    </delete>
+
+    <select id="getMyBlog" parameterType="string" resultType="myblog">
+        SELECT s.name, b.id, b.stu_id, b.title, b.contents, b.rdate
+        FROM student s
+                 JOIN myblog b
+                      ON s.id = b.stu_id
+        WHERE b.stu_id = #{id}
+        ORDER BY b.id DESC
+    </select>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbstar.mapper.CartMapper">
+
+    <select id="thisCart" parameterType="map" resultType="Cart">
+        SELECT c.id, c.studentId, c.lectureId, c.rdate
+             , s.name AS student_name, l.title As lecture_title
+             , l.topic AS lecture_topic, l.price AS lecture_price
+             , l.target AS lecture_target, l.img AS lecture_img
+        FROM cart c, student s, lecture l
+        WHERE c.studentId = s.id
+          And c.lectureId = l.id
+          AND c.lectureId = #{lectureId}
+          AND c.studentId = #{studentId}
+    </select>
+
+    <select id="select" parameterType="Integer" resultType="Cart">
+        SELECT c.id, c.studentId, c.lectureId, c.rdate
+             , s.name AS student_name, l.title As lecture_title
+             , l.topic AS lecture_topic, l.price AS lecture_price
+             , l.target AS lecture_target, l.img AS lecture_img
+        FROM cart c, student s, lecture l
+        WHERE c.studentId = s.id
+          AND c.lectureId = l.id
+          AND c.id = #{id}
+    </select>
+    <select id="getMyCart" parameterType="String" resultType="Cart">
+        SELECT c.id, c.studentId, c.lectureId, c.rdate
+              , s.name AS student_name, l.title As lecture_title
+              , l.topic AS lecture_topic, l.price AS lecture_price
+              , l.target AS lecture_target, l.img AS lecture_img
+        FROM cart c, student s, lecture l
+        WHERE c.studentId = s.id
+          AND c.lectureId = l.id
+          AND c.studentId=#{studentId}
+    </select>
+
+    <select id="cntMyCart" parameterType="String" resultType="Integer">
+        SELECT COUNT(id) AS cnt
+        FROM cart
+        WHERE studentId = #{studentId}
+    </select>
+
+    <select id="selectall" resultType="Cart">
+        SELECT c.id, c.studentId, c.lectureId, c.rdate
+             , s.name AS student_name, l.title As lecture_title
+             , l.topic AS lecture_topic, l.price AS lecture_price
+             , l.target AS lecture_target, l.img AS lecture_img
+        FROM cart c, student s, lecture l
+        WHERE c.studentId = s.id
+          AND c.lectureId = l.id
+    </select>
+
+    <insert id="insert" parameterType="Cart">
+        INSERT INTO cart (id, studentId, lectureId)
+        VALUES (cart_seq.NEXTVAL, #{studentId}, #{lectureId})
+    </insert>
+    <update id="update" parameterType="Cart">
+        UPDATE cart SET
+        studentId=#{studentId}, lectureId=#{lectureId}
+        WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM cart WHERE id=#{id}
+    </delete>
+
+
+</mapper>

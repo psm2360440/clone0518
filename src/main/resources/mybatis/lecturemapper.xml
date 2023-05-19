@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbstar.mapper.LectureMapper">
+    <select id="search" parameterType="LectureSearch" resultType="Lecture">
+        SELECT *
+        FROM lecture
+        <where>
+            <if test="topic != null and !topic.equals('')">
+                topic = #{topic}
+            </if>
+        </where>
+    </select>
+
+
+
+    <select id="select" parameterType="Integer" resultType="lecture">
+        SELECT * FROM lecture WHERE ID=#{id}
+    </select>
+    <select id="selectall" resultType="lecture">
+        SELECT id, title, teacher, topic, target, rdate
+             , length, rating, price, img
+        FROM lecture
+        ORDER BY id DESC
+    </select>
+    <insert id="insert" parameterType="lecture">
+        INSERT INTO lecture VALUES (lecture_seq.NEXTVAL,#{title},#{teacher},#{topic}
+                                ,#{target},TO_CHAR(rdate, 'YYYY.MM.DD HH24:MI:SS')
+                                ,#{length},#{rating},#{price},#{img})
+    </insert>
+    <update id="update" parameterType="lecture">
+        UPDATE lecture SET title=#{title}, teacher=#{teacher}, topic=#{topic}
+                        ,target=#{target}, rdate=#{rdate}, length=#{length}
+                        ,rating=#{rating}, price=#{price}, img=#{img} WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM lecture WHERE ID=#{id}
+    </delete>
+    <select id="getpage" resultType="lecture">
+        SELECT * FROM lecture ORDER BY id DESC
+    </select>
+
+</mapper>
